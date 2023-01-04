@@ -12,8 +12,13 @@ class Grid():
         )
 
     def _move(self, col1, col2):
+        if (self.disposition[self.n_rows-1, col1] == 0) or (self.disposition[0, col2] != 0):
+            return -1 #unfeasible action
+
         parcel = self._take(col1) 
         self._locate(parcel, col=col2)
+
+        return 0 #execute succesfully
 
     def _take(self, col):
         # take the forst element of the col
@@ -33,6 +38,8 @@ class Grid():
             if self.disposition[row, col] == 0:
                 # insert the parcel there
                 self.disposition[row, col] = parcel_idx
-                return
+                return 0
         # the column is full, it is not possible to store it
-        raise ValueError('Column is full')
+        #raise ValueError('Column is full')
+
+        return -1 #unfeasible action
