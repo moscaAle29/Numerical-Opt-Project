@@ -1,5 +1,9 @@
+import copy
+import itertools
+import numpy as np
 from env.grid import Grid
 from env.warehouse import Warehouse
+from gym.spaces import Box
 
 
 class ModifiedWarehouse(Warehouse):
@@ -8,7 +12,10 @@ class ModifiedWarehouse(Warehouse):
         Warehouse.__init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns)
 
         self.actionList = []
+        self.stateList = []
+        self.sampleGenerator = Box(low= 0, high= self.n_parcel_types + 1, shape=(self.n_rows,self.n_cols), dtype = int)
 
+        """
         #add actions type P & type O
         for fromColumn in range(0, self.n_cols):
             for toColumn in range(0, self.n_cols):
@@ -24,35 +31,63 @@ class ModifiedWarehouse(Warehouse):
         for selectedColumn in range(0, self.n_cols):
             for parcelType in range(1, self.n_parcel_types + 1):
                 action = {'type': 'N', 'col': selectedColumn, 'parcelType': parcelType}
-                self.actionList.append(action)
-        
-        #initialize state graph
-        self.stateGraph = StateGraph()
+                self.actionList.append(action) 
+        """
 
-        initialState = self.disposition.disposition
-        initialStateNode = StateNode()
-        initialStateNode.state = initialState
-
-        self.stateGraph.currentNode = initialStateNode 
+        for fromColumn in range(0, self.n_cols):
+            for toColumn in range(0, self.n_cols):
+                if fromColumn != toColumn:
+                    action = {'type': 'P', 'col1': fromColumn, 'col2': toColumn}
+                    self.actionList.append(action)
 
         
+        for state in itertools.combinations_with_replacement(range(0, self.n_parcel_types + 1), self.n_cols * self.n_rows):
+            state = np.array(state)
+            state = state.reshape((self.n_rows, self.n_cols))
 
-class StateGraph:
-    def __init__(self):
-        self.currentNode = None
+            self.actionList.append(state)
+        
+    def reset(self):
+        notValid = True
+        while notValid:
+            sampleState = self.sampleGenerator().sample()
+            notValid = self.validate(sampleState)
+        
+        encodedState = self.encoded(sampleState)
+    
+    def validate(self, state):
+        for row in range(0, self.n_rows-1):
+            for col in range(0, self.n_cols):
+                if (state[row, col] != 0) and (state[row+1, col] == 0):
+                    return False
+        
+        return True
 
-    def expand(self, actionList):
-        pass       
+    
+    def encoded(self, state):
+        pass
 
-class StateNode:
-    def __init__(self):
-        self.state = None
-        self.links = []
-        self.stateActionValue = []
 
-class ActionLinks:
-    def __init__(self):
-        self.src = None
-        self.dest = None
-        self.action = None
+
+
+
+
+
+
+
+        
+
+
+        
+
+
+            
+
+
+
+
+
+
+
+
 
