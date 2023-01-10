@@ -9,24 +9,23 @@ import matplotlib.pyplot as plt
 
 class Warehouse(gym.Env):
     def __init__(self, n_parcel_types, n_rows, n_cols):
+        print("Warehouse::__init__")
         self.n_rows = n_rows
         self.n_cols = n_cols
         self.disposition = Grid(n_rows=n_rows, n_cols=n_cols)
         self.n_parcel_types = n_parcel_types
 
     def reset(self): 
+        print("Warehouse::reset")
         obs = self._get_obs()
         return obs
 
     def _get_obs(self):
+        print("Warehouse::_get_obs")
     
         non_zeroes = np.transpose(np.nonzero(self.disposition.disposition))
         n_orders = 1
-        n_parcels = np.random.randint(
-            low=1,
-            # leave a column for moving objects
-            high=min(3, self.n_cols * (self.n_rows-1) - len(non_zeroes))
-        )
+        n_parcels = 1
 
         self.orders = []
         if len(non_zeroes) > 0:
@@ -36,7 +35,7 @@ class Warehouse(gym.Env):
                 )
         self.new_parcels = np.random.randint(
             low=1,
-            high=4,
+            high=self.n_parcel_types,
             size=(n_parcels,)
         )
 
@@ -48,6 +47,7 @@ class Warehouse(gym.Env):
         return obs
 
     def step(self, action):
+        print("Warehouse::step")
         cost = len(action)
         for move in action:
             # position of the new
@@ -70,6 +70,7 @@ class Warehouse(gym.Env):
         return obs, cost, info
 
     def plot(self, file_path=None):
+        print("Warehouse::plot")
         fig, ax = plt.subplots()
         # remove from the print all the zero values
         data_masked = np.ma.masked_where(

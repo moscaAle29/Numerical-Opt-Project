@@ -4,9 +4,11 @@ import numpy as np
 
 class Agent():
     def __init__(self):
+        print("Agent::__init__")
         pass
 
     def get_action(self, obs):
+        print("Agent::get_action")
         act = []
         # 
         # SATISFY ORDERS:
