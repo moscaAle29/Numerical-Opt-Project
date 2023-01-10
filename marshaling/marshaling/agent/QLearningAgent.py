@@ -9,24 +9,20 @@ class QLearningAgent(Agent):
         self.gamma = gamma
         self.epsilon = epsilon
 
-    def get_action(self, env, obs):
+    def get_action(self, obs, env):
         actionList = []
 
+        #TO BE IMPLEMENTED: reorganize the warehouse
 
-        while not done:
-            action = np.argmax(self.qTable[state])
-            state, reward, done, info = env.step(action)
+        act = Agent.get_action(obs)
 
-            actionList.append(action)
-        
-        return actionList
-
+        return actionList.append(act)
 
     #env: training environment
     #this method is evoked when we train our agent to achieve optimal action_value function (qTable)
     #some env methods need implementing
     def learn(self, env):
-        state = env.reset()
+        state = env.returnRandomState()
         
         done = False
 
@@ -36,7 +32,7 @@ class QLearningAgent(Agent):
             else:
                 action = np.argmax(self.qTable[state]) #exploit learned values
 
-        nextState, reward, done, info = env.step(action) 
+        nextState, reward, done  = env.stepLearn(action) 
 
         oldValue = self.qTable[state, action]
         nextMax = np.max(self.qTable[nextState])
