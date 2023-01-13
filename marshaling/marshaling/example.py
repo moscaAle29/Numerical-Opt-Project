@@ -4,7 +4,7 @@ import numpy as np
 
 
 n_rows = 3
-n_cols = 2
+n_cols = 3
 time_limit = 10
 n_parcel_types = 3
 

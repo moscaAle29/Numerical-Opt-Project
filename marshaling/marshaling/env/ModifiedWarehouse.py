@@ -82,12 +82,12 @@ class ModifiedWarehouse(Warehouse):
     def stepLearn(self, action):
         print("ModifiedWarehouse::stepLearn")
         #decode action
-        action = self.actionList[action]
+        action_list = [self.actionList[action]]
 
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
-        obs, cost, infor = Warehouse.step([action])
+        obs, cost, infor = Warehouse.step(action_list)
 
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
         reward = self.evaluateState(obs['actual_warehouse'].disposition)
@@ -113,7 +113,7 @@ class ModifiedWarehouse(Warehouse):
         print("ModifiedWarehouse::isFinished")
         for col in range(0, self.n_cols):
             for row in range(0, self.n_rows - 1):
-                if state[row, col] > state[row+1, col]:
+                if state[row, col] != 0 and state[row, col] > state[row+1, col]:
                     return False
         
         return True
@@ -140,39 +140,11 @@ class ModifiedWarehouse(Warehouse):
         return encodedAction
 
     def getFeasibleActions(self):
-        myList = []
+        feasibleActionList = []
         for i, action in enumerate(self.actionList):
             grid = copy.deepcopy(self.disposition)
             
             if grid._move(action["col1"], action["col2"]) != -1 :
-                myList.append(i)
+                feasibleActionList.append(i)
         
-        return myList
-            
-        
-    
-
-
-
-
-
-
-
-
-
-        
-
-
-        
-
-
-            
-
-
-
-
-
-
-
-
-
+        return feasibleActionList

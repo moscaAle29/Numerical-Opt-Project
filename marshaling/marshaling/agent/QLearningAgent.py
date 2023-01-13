@@ -1,4 +1,4 @@
-from agent.agent import Agent
+from agent.Agent import Agent
 import random
 import numpy as np
 import copy
@@ -10,6 +10,7 @@ class QLearningAgent(Agent):
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
+        self.count=0
 
     def get_action(self, obs, env):
         print("QLearningAgent::get_action")
@@ -21,9 +22,9 @@ class QLearningAgent(Agent):
             state = virtualEnv.disposition.disposition
             encodedState = virtualEnv.encodeState(state)
             encodedAction = np.argmax(self.qTable[encodedState])
-            action = virtualEnv.actionList[encodedAction]
-            virtualEnv.step([action])
-            actionList.append(action)
+            action_index = virtualEnv.actionList[encodedAction]
+            virtualEnv.step([action_index])
+            actionList.append(action_index)
             
 
         act = Agent.get_action(obs)
@@ -40,24 +41,30 @@ class QLearningAgent(Agent):
         print(env.stateList[state])
         
         done = False
-
-        while not done:
+        self.count+=1
+        iterations=0
+        while not done and iterations<=0:
+            
+            print(f"episode{self.count}")
             if random.uniform(0,1) < self.epsilon:
                 print("explore")
-                action = env.getRandomAction() #explore the action space
+                action_index = env.getRandomAction() #explore the action_index space
             else:
                 print("exploit")
                 feasibleActions = env.getFeasibleActions()
-                action = np.argmax(self.qTable[state, feasibleActions]) #exploit learned values
-                print(action)
+                if len(feasibleActions) == 0:
+                    return
+                action_index = feasibleActions[np.argmax(self.qTable[state, feasibleActions])]#exploit learned values
+                print(action_index)
 
-        nextState, reward, done  = env.stepLearn(action) 
+            nextState, reward, done  = env.stepLearn(action_index) 
 
-        oldValue = self.qTable[state, action]
-        nextMax = np.max(self.qTable[nextState])
-        
-        new_value = (1 - self.alpha) * oldValue + self.alpha * (reward + self.gamma * nextMax)
-        self.qTable[state, action] = new_value
+            oldValue = self.qTable[state, action_index]
+            nextMax = np.max(self.qTable[nextState])
+            
+            new_value = (1 - self.alpha) * oldValue + self.alpha * (reward + self.gamma * nextMax)
+            self.qTable[state, action_index] = new_value
 
-        state = nextState
-
+            state = nextState
+        print(env.stateList[state])
+        iterations+=1
