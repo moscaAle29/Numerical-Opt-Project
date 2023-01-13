@@ -37,7 +37,7 @@ class QLearningAgent(Agent):
         print("QLearningAgent::learn")
         state = env.returnRandomState()
 
-        print(state)
+        print(env.stateList[state])
         
         done = False
 

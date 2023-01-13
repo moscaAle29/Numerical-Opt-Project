@@ -68,11 +68,8 @@ class ModifiedWarehouse(Warehouse):
     
     def encodeState(self, state):
         print("ModifiedWarehouse::encodeState")
-        print(state)
         for i, s in enumerate(self.stateList):
-            print(s)
             if np.array_equal(state, s):
-                print(s)
                 return i
         
         return -1 
@@ -121,36 +118,36 @@ class ModifiedWarehouse(Warehouse):
         
         return True
 
-def validateAction(self,  encodedAction):
-    action = self.actionList[encodedAction]
-    
-    grid= copy.deepcopy(self.disposition)
-    
-    result = grid._move(action["col1"], action["col2"])
-    
-    if result == -1:
-        return False
-    else:
-        return True
-    
-def getRandomAction(self):
-    valid = False
-    
-    while not valid:
-        encodedAction = self.actionSpace.sample()
-        valid = self.validateAction(encodedAction)
+    def validateAction(self,  encodedAction):
+        action = self.actionList[encodedAction]
         
-    return encodedAction
+        grid= copy.deepcopy(self.disposition)
+        
+        result = grid._move(action["col1"], action["col2"])
+        
+        if result == -1:
+            return False
+        else:
+            return True
+        
+    def getRandomAction(self):
+        valid = False
+        
+        while not valid:
+            encodedAction = self.actionSpace.sample()
+            valid = self.validateAction(encodedAction)
+            
+        return encodedAction
 
-def getFeasibleActions(self):
-    myList = []
-    for i, action in enumerate(self.actionList):
-        grid = copy.deepcopy(self.disposition)
+    def getFeasibleActions(self):
+        myList = []
+        for i, action in enumerate(self.actionList):
+            grid = copy.deepcopy(self.disposition)
+            
+            if grid._move(action["col1"], action["col2"]) != -1 :
+                myList.append(i)
         
-        if grid._move(action["col1"], action["col2"]) != -1 :
-            myList.append(i)
-    
-    return myList
+        return myList
             
         
     
