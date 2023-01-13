@@ -44,10 +44,11 @@ class QLearningAgent(Agent):
         while not done:
             if random.uniform(0,1) < self.epsilon:
                 print("explore")
-                action = env.actionSpace.sample() #explore the action space
+                action = env.getRandomAction() #explore the action space
             else:
                 print("exploit")
-                action = np.argmax(self.qTable[state]) #exploit learned values
+                feasibleActions = env.getFeasibleActions()
+                action = np.argmax(self.qTable[state, feasibleActions]) #exploit learned values
                 print(action)
 
         nextState, reward, done  = env.stepLearn(action) 

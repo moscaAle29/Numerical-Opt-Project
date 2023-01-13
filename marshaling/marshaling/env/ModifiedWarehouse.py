@@ -121,6 +121,39 @@ class ModifiedWarehouse(Warehouse):
         
         return True
 
+def validateAction(self,  encodedAction):
+    action = self.actionList[encodedAction]
+    
+    grid= copy.deepcopy(self.disposition)
+    
+    result = grid._move(action["col1"], action["col2"])
+    
+    if result == -1:
+        return False
+    else:
+        return True
+    
+def getRandomAction(self):
+    valid = False
+    
+    while not valid:
+        encodedAction = self.actionSpace.sample()
+        valid = self.validateAction(encodedAction)
+        
+    return encodedAction
+
+def getFeasibleActions(self):
+    myList = []
+    for i, action in enumerate(self.actionList):
+        grid = copy.deepcopy(self.disposition)
+        
+        if grid._move(action["col1"], action["col2"]) != -1 :
+            myList.append(i)
+    
+    return myList
+            
+        
+    
 
 
 
