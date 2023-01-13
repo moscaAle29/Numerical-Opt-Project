@@ -87,7 +87,7 @@ class ModifiedWarehouse(Warehouse):
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
-        obs, cost, infor = Warehouse.step(action_list)
+        obs, cost, infor = Warehouse.step(self, action = action_list)
 
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
         reward = self.evaluateState(obs['actual_warehouse'].disposition)
