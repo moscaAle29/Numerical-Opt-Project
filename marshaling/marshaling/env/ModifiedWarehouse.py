@@ -10,7 +10,7 @@ class ModifiedWarehouse(Warehouse):
     
     def __init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns):
         print("ModifiedWarehouse::__init__")
-        Warehouse.__init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns)
+        self.warehouse=Warehouse.__init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns)
 
         #a list to store all the states
         self.actionList = []
@@ -87,7 +87,7 @@ class ModifiedWarehouse(Warehouse):
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
-        obs, cost, infor = Warehouse.step(action_list)
+        obs, cost, infor = Warehouse.step(self,action_list)
 
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
         reward = self.evaluateState(obs['actual_warehouse'].disposition)
@@ -133,6 +133,8 @@ class ModifiedWarehouse(Warehouse):
     def getRandomAction(self):
         valid = False
         
+        #check for number of elements => unfeasible=>return -1
+                
         while not valid:
             encodedAction = self.actionSpace.sample()
             valid = self.validateAction(encodedAction)

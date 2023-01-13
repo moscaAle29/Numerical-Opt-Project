@@ -43,8 +43,8 @@ class QLearningAgent(Agent):
         done = False
         self.count+=1
         iterations=0
-        while not done and iterations<=0:
-            
+        while not done and iterations<=10:
+            action_index=0
             print(f"episode{self.count}")
             if random.uniform(0,1) < self.epsilon:
                 print("explore")
@@ -52,11 +52,11 @@ class QLearningAgent(Agent):
             else:
                 print("exploit")
                 feasibleActions = env.getFeasibleActions()
-                if len(feasibleActions) == 0:
-                    return
                 action_index = feasibleActions[np.argmax(self.qTable[state, feasibleActions])]#exploit learned values
                 print(action_index)
 
+            if len(feasibleActions) == 0 or action_index==-1 :
+                return
             nextState, reward, done  = env.stepLearn(action_index) 
 
             oldValue = self.qTable[state, action_index]
@@ -66,5 +66,8 @@ class QLearningAgent(Agent):
             self.qTable[state, action_index] = new_value
 
             state = nextState
-        print(env.stateList[state])
-        iterations+=1
+            print(env.stateList[state])
+            iterations+=1
+        
+
+       
