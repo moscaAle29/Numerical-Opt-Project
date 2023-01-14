@@ -11,13 +11,13 @@ n_parcel_types = 3
 qTable = np.zeros(((n_parcel_types+1)**(n_cols*n_rows), n_cols*(n_cols - 1)), dtype=int)
 alpha = 0.5
 gamma = 0.5
-epsilon = 0.1
+epsilon = 0.3
 
 agent = QLearningAgent(qTable, alpha, gamma, epsilon)
 env = ModifiedWarehouse(n_parcel_types, n_rows, n_cols)
 
 
-for i in range(0, 1000):
+for i in range(0, 100):
     agent.learn(env)
 
 print(qTable)

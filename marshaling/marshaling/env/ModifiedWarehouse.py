@@ -39,6 +39,11 @@ class ModifiedWarehouse(Warehouse):
     def reset(self):
         print("ModifiedWarehouse::reset")
         self.disposition.disposition = self.stateSpace.sample()
+
+        #create empty col
+        for i in range(0, self.n_rows):
+            self.disposition.disposition[i, self.n_cols - 1] = 0
+
         obs = self._get_obs()
         
         return obs
@@ -51,7 +56,7 @@ class ModifiedWarehouse(Warehouse):
             obs = self.reset()
             sampleState = obs['actual_warehouse'].disposition
             notValid = self.validate(sampleState)
-        
+
         encodedState = self.encodeState(sampleState)
 
         return encodedState
@@ -87,7 +92,7 @@ class ModifiedWarehouse(Warehouse):
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
-        obs, cost, infor = Warehouse.step(self, action = action_list)
+        obs, cost, infor = Warehouse.step(self,action = action_list)
 
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
         reward = self.evaluateState(obs['actual_warehouse'].disposition)

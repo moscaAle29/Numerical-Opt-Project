@@ -43,12 +43,18 @@ class QLearningAgent(Agent):
         done = False
         self.count+=1
         iterations=0
-        while not done and iterations<=10:
-            
+        while not done and iterations<=100:
+
             print(f"episode{self.count}")
+            print(f'iteration:{iterations}')
+
             if random.uniform(0,1) < self.epsilon:
                 print("explore")
-                action_index = env.getRandomAction() #explore the action_index space
+                feasibleActions = env.getFeasibleActions()
+                if len(feasibleActions) == 0:
+                    return
+                randomIndex = random.randint(0, len(feasibleActions) - 1)
+                action_index = feasibleActions[randomIndex] #explore the action_index space
             else:
                 print("exploit")
                 feasibleActions = env.getFeasibleActions()
@@ -66,7 +72,7 @@ class QLearningAgent(Agent):
             self.qTable[state, action_index] = new_value
 
             state = nextState
-            print(f'iteration:{iterations}')
             iterations+=1
+            print(env.stateList[state])
 
-        print(env.stateList[state])
+
