@@ -89,14 +89,21 @@ class ModifiedWarehouse(Warehouse):
         #decode action
         action_list = [self.actionList[action]]
 
+        currentStateValue = self.evaluateState(self.disposition.disposition)
+
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
         obs, cost, infor = Warehouse.step(self,action = action_list)
 
+        nextStateValue = self.evaluateState(obs['actual_warehouse'].disposition)
+
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
-        reward = self.evaluateState(obs['actual_warehouse'].disposition)
+        reward = nextStateValue - currentStateValue
         done = self.isFinished(obs['actual_warehouse'].disposition)
+
+        if done == True:
+            reward = reward + 100
 
         return nextState, reward, done
 
