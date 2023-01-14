@@ -10,7 +10,7 @@ class ModifiedWarehouse(Warehouse):
     
     def __init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns):
         print("ModifiedWarehouse::__init__")
-        Warehouse.__init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns)
+        self.warehouse=Warehouse.__init__(self, numberOfParcelTypes, numberOfRows, numberOfColumns)
 
         #a list to store all the states
         self.actionList = []
@@ -138,6 +138,8 @@ class ModifiedWarehouse(Warehouse):
     def getRandomAction(self):
         valid = False
         
+        #check for number of elements => unfeasible=>return -1
+                
         while not valid:
             encodedAction = self.actionSpace.sample()
             valid = self.validateAction(encodedAction)
