@@ -43,7 +43,7 @@ class QLearningAgent(Agent):
         done = False
         self.count+=1
         iterations=0
-        while not done and iterations<=100:
+        while not done and iterations<=1000:
             
             print(f"episode{self.count}")
             print(f'iteration:{iterations}')

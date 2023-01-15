@@ -89,21 +89,21 @@ class ModifiedWarehouse(Warehouse):
         #decode action
         action_list = [self.actionList[action]]
 
-        currentStateValue = self.evaluateState(self.disposition.disposition)
+        #currentStateValue = self.evaluateState(self.disposition.disposition)
 
         #execute the action
         #ignore the cost and infor
         #only obs is useful to determine new state
         obs, cost, infor = Warehouse.step(self,action = action_list)
 
-        nextStateValue = self.evaluateState(obs['actual_warehouse'].disposition)
+        #nextStateValue = self.evaluateState(obs['actual_warehouse'].disposition)
 
         nextState = self.encodeState(obs['actual_warehouse'].disposition)
-        reward = nextStateValue - currentStateValue
+        reward = -1
         done = self.isFinished(obs['actual_warehouse'].disposition)
 
         if done == True:
-            reward = reward + 100
+            reward = reward + 1000
 
         return nextState, reward, done
 
@@ -115,18 +115,25 @@ class ModifiedWarehouse(Warehouse):
         for col in range(0, self.n_cols):
             reward = 0
             for row in range(0, self.n_rows - 1):
-                if state[row, col] < state[row+1, col]:
+                if (state[row, col] != 0) and (state[row, col] <= state[row+1, col]):
                     reward = reward + 1
             
             totalReward = totalReward + reward
+
+         
         return totalReward
 
     def isFinished(self, state):
         print("ModifiedWarehouse::isFinished")
+        #the high priority item must be on top of the low priority item
         for col in range(0, self.n_cols):
             for row in range(0, self.n_rows - 1):
-                if state[row, col] != 0 and state[row, col] > state[row+1, col]:
+                if state[row, col] > state[row+1, col]:
                     return False
+        
+        #the extra col must be empty in the end
+        #if state[self.n_rows - 1, self.n_cols - 1] != 0:
+        #    return False
         
         return True
 
