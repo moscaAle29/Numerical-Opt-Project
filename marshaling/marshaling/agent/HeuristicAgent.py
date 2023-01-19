@@ -10,8 +10,8 @@ class HeuristicAgent(Agent):
         self.V = AVF()
 
         s1 = np.array([[0,0,0],[4,4,0],[1,2,3]])
-        s2 = np.array([[0,0,0],[4,0,4],[1,2,3]])
-        s3 = np.array([[0,0,0],[0,4,4],[1,2,3]])  
+        s2 = np.array([[0,0,0],[0,0,4],[1,2,3]])
+        s3 = np.array([[0,0,0],[0,0,1],[1,2,3]])  
         self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3)],[1,2,3])
 
         self.time = 0
@@ -98,7 +98,7 @@ class HeuristicAgent(Agent):
         moveList = []
         for moveIndex in bestAction:
             if moveIndex != -1:
-                moveList.append(moveIndex)
+                moveList.append(self.moveList[moveIndex])
         
         #update observation
         newObs = {

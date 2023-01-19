@@ -12,8 +12,8 @@ class Observer:
 
     def getObservation(self, grid):
 
-        #numberOfNewParcels = poisson.rvs(0.2,1)
-        #numberOfOrders = poisson.rvs(0,2,1)
+        #numberOfNewParcels = int(poisson.rvs(0.2,1))
+        #numberOfOrders = int(poisson.rvs(0,2,1))
         numberOfNewParcels = 2
         numberOfOrders = 2
 
@@ -45,8 +45,11 @@ class Observer:
             parcel = np.random.randint(low = 1, high = 4)
             newParcels.append(parcel)
         
+        gridImage = copy.deepcopy(grid)
+        gridImage.disposition = np.array(grid.disposition)
+        
         obs = {
-            'actual_warehouse' : copy.deepcopy(grid),
+            'actual_warehouse' : gridImage,
             'order' : orders,
             'new_parcel' : newParcels
         }

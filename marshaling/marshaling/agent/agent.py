@@ -24,7 +24,7 @@ class Agent():
                     act.append(
                         {
                             'type': 'P',
-                            'col1': 0,
+                            'col1': col,
                             'col2': obs['actual_warehouse'].n_cols - 1,
                         }
                     )
