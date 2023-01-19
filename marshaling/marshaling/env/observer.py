@@ -2,6 +2,7 @@ import copy
 import numpy as np
 from scipy.stats import poisson
 from collections import Counter
+from env.grid import Grid
 
 class Observer:
     def __init__(self):
@@ -45,7 +46,7 @@ class Observer:
             parcel = np.random.randint(low = 1, high = 4)
             newParcels.append(parcel)
         
-        gridImage = copy.deepcopy(grid)
+        gridImage = Grid(grid.n_rows, grid.n_cols)
         gridImage.disposition = np.array(grid.disposition)
         
         obs = {

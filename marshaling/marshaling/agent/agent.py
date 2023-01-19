@@ -40,10 +40,7 @@ class Agent():
                     act.append(
                         {'type': 'N', 'n_parcel': i, 'col': col}
                     )
-                    obs['actual_warehouse']._locate(
-                        parcel,
-                        col
-                    )
+
                     break
                 
         return act
