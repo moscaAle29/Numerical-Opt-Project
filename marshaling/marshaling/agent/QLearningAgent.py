@@ -18,7 +18,7 @@ class QLearningAgent(Agent):
 
         #TO BE IMPLEMENTED: reorganize the warehouse
         virtualEnv = copy.deepcopy(env)
-        for i in range(0,10):
+        for i in range(0,4):
             state = virtualEnv.disposition.disposition
             encodedState = virtualEnv.encodeState(state)
             encodedAction = np.argmax(self.qTable[encodedState])

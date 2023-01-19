@@ -38,7 +38,10 @@ class ModifiedWarehouse(Warehouse):
 
     def reset(self):
         print("ModifiedWarehouse::reset")
-        self.disposition.disposition = self.stateSpace.sample()
+        valid = False
+        while not valid:
+            self.disposition.disposition = self.stateSpace.sample()
+            valid = self.validate(self.disposition.disposition)
 
         #create empty col
         for i in range(0, self.n_rows):
@@ -50,13 +53,9 @@ class ModifiedWarehouse(Warehouse):
         
     def returnRandomState(self):
         print("ModifiedWarehour::returnRandomState")
-        notValid = True
 
-        while notValid:
-            obs = self.reset()
-            sampleState = obs['actual_warehouse'].disposition
-            notValid = self.validate(sampleState)
-
+        obs = self.reset()
+        sampleState = obs['actual_warehouse'].disposition
         encodedState = self.encodeState(sampleState)
 
         return encodedState
@@ -66,9 +65,9 @@ class ModifiedWarehouse(Warehouse):
         for row in range(0, self.n_rows-1):
             for col in range(0, self.n_cols):
                 if (state[row, col] != 0) and (state[row+1, col] == 0):
-                    return True
+                    return False
         
-        return False
+        return True
 
     
     def encodeState(self, state):

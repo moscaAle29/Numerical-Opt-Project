@@ -96,4 +96,29 @@ class Warehouse(gym.Env):
             plt.close()
         else:
             plt.show()
+
+
+class Warehouse2(Warehouse): 
+    
+    def step(self, action):
+        print("Warehouse2::step")
+        cost = len(action)
+        for move in action:
+            # position of the new
+            if move['type'] == 'N':
+                self.disposition._locate(
+                    self.new_parcels[move['n_parcel']],
+                    col=move['col']
+                )
+            elif move['type'] == 'O':
+                parcel_get = self.disposition._take(move['col'])
+                if parcel_get != self.orders[move['n_order']]:
+                    ValueError('Shipped wrong parcel')
+            else:
+                self.disposition._move(
+                    move['col1'],
+                    move['col2']
+                )
         
+
+        return cost
