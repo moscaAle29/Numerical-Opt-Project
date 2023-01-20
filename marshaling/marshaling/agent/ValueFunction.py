@@ -18,9 +18,9 @@ class AVF(ValueFunction):
             w = sum(state[i,:])
             instance.append(w)
         
-        v = 0
-        for c in range(0, numberOfColumns):
-            for r in range
+        #v = 0
+        #for c in range(0, numberOfColumns):
+        #    for r in range
 
         return instance 
 
