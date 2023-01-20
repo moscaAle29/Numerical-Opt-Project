@@ -3,6 +3,38 @@ from agent.Agent import Agent
 from env.warehouse import Warehouse2
 from env.Observer import Observer
 import numpy as np
+from agent.ValueFunction import AVF
+
+#training value function
+trainState = np.array([[0,0,0],[4,3,2],[1,2,3]])
+trainWarehouse = Warehouse2(4,3,3)
+trainAgent = Agent()
+trainWarehouse.disposition.disposition = trainState
+trainObs = Observer()
+
+tobs = trainObs.getObservation(trainWarehouse.disposition)
+
+X = []
+y = []
+f = AVF()
+
+for i in range(0,5000):
+    print(i)
+    x = f.transform(trainWarehouse.disposition.disposition)
+    trainWarehouse.orders = tobs['order']
+    trainWarehouse.new_parcels = tobs['new_parcel']
+    action = trainAgent.get_action(tobs)
+    cost = trainWarehouse.step(action)
+
+    tobs = trainObs.getObservation(trainWarehouse.disposition)
+
+    X.append(x)
+    y.append(cost)
+
+f.update(X,y)
+
+
+
 
 timeLimit = 500
 
@@ -11,8 +43,8 @@ numberOfColumns = 3
 numberOfRows = 3
 numberOfParcelTypes = 4
 
-initialState = np.array([[0,0,0],[4,4,0],[1,2,3]])
-initialState2 = np.array([[0,0,0],[4,4,0],[1,2,3]])
+initialState = np.array([[0,0,0],[4,4,2],[1,2,3]])
+initialState2 = np.array([[0,0,0],[4,4,2],[1,2,3]])
 
 
 observer = Observer()
@@ -23,6 +55,8 @@ naiveWarehouse = Warehouse2(numberOfParcelTypes, numberOfRows, numberOfColumns)
 #2 Agents
 heuristicAgent = HeuristicAgent(env=heuristicWarehouse)
 naiveAgent = Agent()
+
+heuristicAgent.V = f
 
 #set inital state for both warehouses
 heuristicWarehouse.disposition.disposition = initialState
@@ -43,7 +77,7 @@ for t in range(timeLimit):
     naiveCost += cost
     print(naiveWarehouse.disposition.disposition)
 
-    print('**************************************')
+    print(f'**************************************  {t}')
 
     #heuristic approach
     obs['actual_warehouse'].disposition = heuristicWarehouse.disposition.disposition.copy()

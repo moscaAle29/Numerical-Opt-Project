@@ -9,15 +9,15 @@ class HeuristicAgent(Agent):
         #Approximate Value Function
         self.V = AVF()
 
-        s1 = np.array([[0,0,0],[4,4,0],[1,2,3]])
-        s2 = np.array([[0,0,0],[1,3,0],[4,4,2]])
-        s3 = np.array([[0,0,0],[1,2,0],[4,4,2]])  
-        s4 = np.array([[0,0,0],[4,3,0],[3,2,1]])
-        s5 = np.array([[0,0,0],[1,4,0],[4,3,2]])
-        self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3),self.V.transform(s4),self.V.transform(s5)],[-1,9,10,0,5])
+        #s1 = np.array([[0,0,0],[4,4,0],[1,2,3]])
+        #s2 = np.array([[0,0,0],[1,3,0],[4,4,2]])
+        #s3 = np.array([[0,0,0],[1,2,0],[4,4,3]])  
+        #s4 = np.array([[0,0,0],[4,3,0],[4,2,1]])
+        #s5 = np.array([[0,0,0],[1,4,0],[4,3,2]])
+        #self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3),self.V.transform(s4),self.V.transform(s5)],[-2,2,2,2,1])
 
         self.time = 0
-        self.alpha = 0.2
+        self.alpha = 0.5
 
         self.X = []
         self.y = []
@@ -61,7 +61,7 @@ class HeuristicAgent(Agent):
                     unfeasibleAction = True
                     break
 
-                totCost = totCost - 1
+                totCost = totCost + 1
             
             if unfeasibleAction == True:
                 continue
@@ -73,13 +73,13 @@ class HeuristicAgent(Agent):
                 bestAction = action
                 bestVirtualGrid = virtualGrid
             else:
-                if value >= bestValue:
+                if value < bestValue:
                     bestValue = value
                     bestAction = action
                     bestVirtualGrid = virtualGrid
             
         #update the value function
-        if (self.time % 10) == 0:
+        if (self.time % 100) == 0:
             self.S_prev = bestVirtualGrid.disposition
         else:
             x = self.V.transform(self.S_prev)
@@ -90,7 +90,7 @@ class HeuristicAgent(Agent):
             self.time = self.time + 1
         
         #end an episode
-        if self.time % 10 == 9:
+        if self.time % 10 == 99:
             self.V.update(self.X, self.y)
         
             self.X = []

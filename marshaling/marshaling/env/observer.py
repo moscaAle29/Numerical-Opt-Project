@@ -15,8 +15,8 @@ class Observer:
 
         #numberOfNewParcels = int(poisson.rvs(0.2,1))
         #numberOfOrders = int(poisson.rvs(0,2,1))
-        numberOfNewParcels = 3
-        numberOfOrders = 3
+        numberOfNewParcels = 4
+        numberOfOrders = 4
 
 
 
