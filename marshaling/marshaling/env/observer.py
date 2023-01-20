@@ -15,8 +15,8 @@ class Observer:
 
         #numberOfNewParcels = int(poisson.rvs(0.2,1))
         #numberOfOrders = int(poisson.rvs(0,2,1))
-        numberOfNewParcels = 2
-        numberOfOrders = 2
+        numberOfNewParcels = 3
+        numberOfOrders = 3
 
 
 
@@ -31,11 +31,14 @@ class Observer:
         for coordinate in coordinates:
             currentParcels.append(grid.disposition[coordinate[0], coordinate[1]])
 
+        copiedCurrentParcels = copy.copy(currentParcels)
         for i in range(0, numberOfOrders):
             orderedParcel = np.random.choice(a=self.parcelTypes,p= self.probabilityOfOrder)
 
-            while orderedParcel not in currentParcels:
+            while orderedParcel not in copiedCurrentParcels:
                 orderedParcel = np.random.choice(a=self.parcelTypes,p= self.probabilityOfOrder)
+            
+            copiedCurrentParcels.remove(orderedParcel)
             
             orders.append(orderedParcel)
         
@@ -54,6 +57,7 @@ class Observer:
             'order' : orders,
             'new_parcel' : newParcels
         }
+
 
         return obs
 

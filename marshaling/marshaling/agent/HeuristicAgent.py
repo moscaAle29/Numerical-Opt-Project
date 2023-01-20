@@ -1,6 +1,6 @@
 import copy
 from agent.Agent import Agent
-from agent.ValueFunction import AVF
+from agent.ValueFunction import AVF, AVF2, AVF3
 import itertools
 import numpy as np
 
@@ -10,12 +10,14 @@ class HeuristicAgent(Agent):
         self.V = AVF()
 
         s1 = np.array([[0,0,0],[4,4,0],[1,2,3]])
-        s2 = np.array([[0,0,0],[0,0,4],[1,2,3]])
-        s3 = np.array([[0,0,0],[0,0,1],[1,2,3]])  
-        self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3)],[1,2,3])
+        s2 = np.array([[0,0,0],[1,3,0],[4,4,2]])
+        s3 = np.array([[0,0,0],[1,2,0],[4,4,2]])  
+        s4 = np.array([[0,0,0],[4,3,0],[3,2,1]])
+        s5 = np.array([[0,0,0],[1,4,0],[4,3,2]])
+        self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3),self.V.transform(s4),self.V.transform(s5)],[-1,9,10,0,5])
 
         self.time = 0
-        self.alpha = 0.5
+        self.alpha = 0.2
 
         self.X = []
         self.y = []
@@ -45,6 +47,7 @@ class HeuristicAgent(Agent):
 
         for action in self.actionList:
             virtualGrid = copy.deepcopy(obs['actual_warehouse'])
+            virtualGrid.disposition = obs['actual_warehouse'].disposition.copy()
             totCost = 0
             unfeasibleAction = False
             for moveIndex in action:
@@ -63,7 +66,7 @@ class HeuristicAgent(Agent):
             if unfeasibleAction == True:
                 continue
 
-            value = totCost + self.V.cal(virtualGrid.disposition)
+            value = totCost + float(self.V.cal(virtualGrid.disposition))
 
             if bestValue == None:
                 bestValue = value
@@ -81,15 +84,15 @@ class HeuristicAgent(Agent):
         else:
             x = self.V.transform(self.S_prev)
             self.X.append(x)
-            newValue = (1-self.alpha) * self.V.cal(x) + self.alpha * bestValue
+            newValue = (1-self.alpha) * float(self.V.cal(x)) + self.alpha * bestValue
             self.y.append(newValue)
-
+        
             self.time = self.time + 1
         
         #end an episode
         if self.time % 10 == 9:
             self.V.update(self.X, self.y)
-
+        
             self.X = []
             self.y = []
             self.S_prev = None

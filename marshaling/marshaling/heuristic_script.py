@@ -12,6 +12,8 @@ numberOfRows = 3
 numberOfParcelTypes = 4
 
 initialState = np.array([[0,0,0],[4,4,0],[1,2,3]])
+initialState2 = np.array([[0,0,0],[4,4,0],[1,2,3]])
+
 
 observer = Observer()
 
@@ -24,7 +26,7 @@ naiveAgent = Agent()
 
 #set inital state for both warehouses
 heuristicWarehouse.disposition.disposition = initialState
-naiveWarehouse.disposition.disposition = initialState
+naiveWarehouse.disposition.disposition = initialState2
 
 heuristicCost = 0
 naiveCost = 0
@@ -33,7 +35,7 @@ obs = observer.getObservation(naiveWarehouse.disposition)
 
 for t in range(timeLimit):
     #naive approach
-    print(obs['actual_warehouse'].disposition)
+    print(naiveWarehouse.disposition.disposition)
     naiveWarehouse.orders = obs['order']
     naiveWarehouse.new_parcels = obs['new_parcel']
     action = naiveAgent.get_action(obs)
@@ -41,8 +43,11 @@ for t in range(timeLimit):
     naiveCost += cost
     print(naiveWarehouse.disposition.disposition)
 
+    print('**************************************')
+
     #heuristic approach
-    print(obs['actual_warehouse'].disposition)
+    obs['actual_warehouse'].disposition = heuristicWarehouse.disposition.disposition.copy()
+    print(heuristicWarehouse.disposition.disposition)
     heuristicWarehouse.orders = obs['order']
     heuristicWarehouse.new_parcels = obs['new_parcel']    
     action = heuristicAgent.get_action(obs)
