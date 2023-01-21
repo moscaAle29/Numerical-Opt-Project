@@ -1,4 +1,7 @@
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.pipeline import make_pipeline
 from sklearn.ensemble import RandomForestRegressor
 class ValueFunction:
     def __init__(self):
@@ -6,8 +9,10 @@ class ValueFunction:
 
 class AVF(ValueFunction):
     def __init__(self):
-        self.model = LinearRegression(fit_intercept = True)
+        #self.model = make_pipeline(PolynomialFeatures(2), LinearRegression())
         #self.model = RandomForestRegressor()
+        self.model = LinearRegression(fit_intercept = True)
+        #self.model = KNeighborsRegressor()
 
     def transform(self, state):
         numberOfRows = state.shape[0]
@@ -26,13 +31,13 @@ class AVF(ValueFunction):
 
             instance.append(v)
         
-        for r in range(0, numberOfRows):
-            z = 0
-            for c in range(0, numberOfColumns):
-                if state[r,c] ==0:
-                    z = z + 1
+        #for r in range(0, numberOfRows):
+        #    z = 0
+        #    for c in range(0, numberOfColumns):
+        #        if state[r,c] ==0:
+        #            z = z + 1
             
-            instance.append(z)
+        #    instance.append(z)
 
 
         return instance 

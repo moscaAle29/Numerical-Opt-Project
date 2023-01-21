@@ -8,13 +8,13 @@ class Observer:
     def __init__(self):
         print('Observer::__init__')
         self.parcelTypes = [1,2,3,4]
-        self.probabilityOfOrder = [0.6, 0.3, 0.08, 0.02]
+        self.probabilityOfOrder = [0.5, 0.3, 0.15, 0.05]
 
 
     def getObservation(self, grid):
 
-        #numberOfNewParcels = int(poisson.rvs(0.2,1))
-        #numberOfOrders = int(poisson.rvs(0,2,1))
+        #numberOfNewParcels = int(poisson.rvs(0.4,1))
+        #numberOfOrders = int(poisson.rvs(0,4,1))
         numberOfNewParcels = 4
         numberOfOrders = 4
 
@@ -46,7 +46,7 @@ class Observer:
         newParcels = []
 
         for i in range(0, numberOfNewParcels):
-            parcel = np.random.randint(low = 1, high = 4)
+            parcel = np.random.randint(1,5)
             newParcels.append(parcel)
         
         gridImage = Grid(grid.n_rows, grid.n_cols)

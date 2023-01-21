@@ -6,11 +6,12 @@ import numpy as np
 from agent.ValueFunction import AVF
 
 #training value function
-trainState = np.array([[0,0,0],[4,3,2],[1,2,3]])
+trainState = np.array([[0,0,0],[4,4,2],[1,2,3]])
 trainWarehouse = Warehouse2(4,3,3)
 trainAgent = Agent()
 trainWarehouse.disposition.disposition = trainState
 trainObs = Observer()
+
 
 tobs = trainObs.getObservation(trainWarehouse.disposition)
 
@@ -18,7 +19,7 @@ X = []
 y = []
 f = AVF()
 
-for i in range(0,5000):
+for i in range(0,1000):
     print(i)
     x = f.transform(trainWarehouse.disposition.disposition)
     trainWarehouse.orders = tobs['order']
@@ -36,7 +37,7 @@ f.update(X,y)
 
 
 
-timeLimit = 500
+timeLimit = 2000
 
 #define warehouse
 numberOfColumns = 3

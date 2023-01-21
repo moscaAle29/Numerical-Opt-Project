@@ -17,7 +17,7 @@ class HeuristicAgent(Agent):
         #self.V.update([self.V.transform(s1),self.V.transform(s2),self.V.transform(s3),self.V.transform(s4),self.V.transform(s5)],[-2,2,2,2,1])
 
         self.time = 0
-        self.alpha = 0.5
+        self.alpha = 0.2
 
         self.X = []
         self.y = []
@@ -90,7 +90,7 @@ class HeuristicAgent(Agent):
             self.time = self.time + 1
         
         #end an episode
-        if self.time % 10 == 99:
+        if self.time % 100 == 99:
             self.V.update(self.X, self.y)
         
             self.X = []
