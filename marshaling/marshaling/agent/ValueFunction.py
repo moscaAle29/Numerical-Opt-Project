@@ -24,7 +24,7 @@ class AVF(ValueFunction):
         instance = []
         for i in range(0, numberOfRows):
             w = sum(state[i,:])
-            #instance.append(w)
+            instance.append(w)
         
         for c in range(0, numberOfColumns):
             v = 0
@@ -32,12 +32,12 @@ class AVF(ValueFunction):
                 if state[r, c] <= state[r+1,c]:
                     v = v + 1
 
-            #instance.append(v)
+            instance.append(v)
         
         for c in range(0, numberOfColumns):
             for r in range(0, numberOfRows):
                 s = state[r, c]
-                instance.append(s)
+                #instance.append(s)
         
         #for r in range(0, numberOfRows):
         #    z = 0
