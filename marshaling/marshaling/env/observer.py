@@ -8,7 +8,7 @@ class Observer:
     def __init__(self):
         print('Observer::__init__')
         self.parcelTypes = [1,2,3,4]
-        self.probabilityOfOrder = [0.5, 0.3, 0.15, 0.05]
+        self.probabilityOfOrder = [0.75, 0.15, 0.08, 0.02]
 
 
     def getObservation(self, grid):

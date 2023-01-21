@@ -37,7 +37,7 @@ f.update(X,y)
 
 
 
-timeLimit = 2000
+timeLimit = 1000
 
 #define warehouse
 numberOfColumns = 3
@@ -58,6 +58,8 @@ heuristicAgent = HeuristicAgent(env=heuristicWarehouse)
 naiveAgent = Agent()
 
 heuristicAgent.V = f
+heuristicAgent.X = X
+heuristicAgent.y = y
 
 #set inital state for both warehouses
 heuristicWarehouse.disposition.disposition = initialState

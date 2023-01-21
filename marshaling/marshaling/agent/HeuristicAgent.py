@@ -79,7 +79,7 @@ class HeuristicAgent(Agent):
                     bestVirtualGrid = virtualGrid
             
         #update the value function
-        if (self.time % 100) == 0:
+        if (self.time % 20) == 0:
             self.S_prev = bestVirtualGrid.disposition
         else:
             x = self.V.transform(self.S_prev)
@@ -90,12 +90,12 @@ class HeuristicAgent(Agent):
             self.time = self.time + 1
         
         #end an episode
-        if self.time % 100 == 99:
+        if self.time % 20 == 19:
             self.V.update(self.X, self.y)
         
-            self.X = []
-            self.y = []
-            self.S_prev = None
+            #self.X = []
+            #self.y = []
+            #self.S_prev = None
 
         #generate list of moves = action
         moveList = []
