@@ -3,6 +3,8 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
 class ValueFunction:
     def __init__(self):
         pass
@@ -11,8 +13,9 @@ class AVF(ValueFunction):
     def __init__(self):
         #self.model = make_pipeline(PolynomialFeatures(2), LinearRegression())
         #self.model = RandomForestRegressor()
-        self.model = LinearRegression(fit_intercept = True)
+        #self.model = LinearRegression(fit_intercept = True)
         #self.model = KNeighborsRegressor()
+        self.model = make_pipeline(StandardScaler(), MLPRegressor())
 
     def transform(self, state):
         numberOfRows = state.shape[0]
@@ -21,7 +24,7 @@ class AVF(ValueFunction):
         instance = []
         for i in range(0, numberOfRows):
             w = sum(state[i,:])
-            instance.append(w)
+            #instance.append(w)
         
         for c in range(0, numberOfColumns):
             v = 0
@@ -29,7 +32,12 @@ class AVF(ValueFunction):
                 if state[r, c] <= state[r+1,c]:
                     v = v + 1
 
-            instance.append(v)
+            #instance.append(v)
+        
+        for c in range(0, numberOfColumns):
+            for r in range(0, numberOfRows):
+                s = state[r, c]
+                instance.append(s)
         
         #for r in range(0, numberOfRows):
         #    z = 0

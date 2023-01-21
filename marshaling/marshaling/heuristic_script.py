@@ -19,7 +19,7 @@ X = []
 y = []
 f = AVF()
 
-for i in range(0,1000):
+for i in range(0,100000):
     print(i)
     x = f.transform(trainWarehouse.disposition.disposition)
     trainWarehouse.orders = tobs['order']
@@ -37,7 +37,7 @@ f.update(X,y)
 
 
 
-timeLimit = 1000
+timeLimit = 500
 
 #define warehouse
 numberOfColumns = 3
