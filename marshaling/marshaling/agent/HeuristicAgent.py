@@ -79,9 +79,9 @@ class HeuristicAgent(Agent):
                     bestVirtualGrid = virtualGrid
             
         #update the value function
-        if (self.time % 1000) == 0:
+        if (self.time % 100) == 0:
             self.S_prev = bestVirtualGrid.disposition
-            #self.time = self.time + 1
+            self.time = self.time + 1
         else:
             x = self.V.transform(self.S_prev)
             self.X.append(x)
@@ -89,7 +89,7 @@ class HeuristicAgent(Agent):
             self.y.append(newValue)
 
             #end an episode
-            if self.time % 1000 == 999:
+            if self.time % 100 == 99:
                 self.V.update(self.X, self.y)
         
                 self.X = []

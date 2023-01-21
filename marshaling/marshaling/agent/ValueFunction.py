@@ -13,9 +13,9 @@ class AVF(ValueFunction):
     def __init__(self):
         #self.model = make_pipeline(PolynomialFeatures(2), LinearRegression())
         #self.model = RandomForestRegressor()
-        #self.model = LinearRegression(fit_intercept = True)
+        self.model = LinearRegression(fit_intercept = True)
         #self.model = KNeighborsRegressor()
-        self.model = make_pipeline(StandardScaler(), MLPRegressor())
+        #self.model = make_pipeline(StandardScaler(), MLPRegressor())
 
     def transform(self, state):
         numberOfRows = state.shape[0]

@@ -19,7 +19,7 @@ X = []
 y = []
 f = AVF()
 
-for i in range(0,100000):
+for i in range(0,1000):
     print(i)
     x = f.transform(trainWarehouse.disposition.disposition)
     trainWarehouse.orders = tobs['order']
