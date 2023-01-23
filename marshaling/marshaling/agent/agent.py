@@ -55,6 +55,8 @@ class Agent():
                 {'type': 'O', 'col': col, 'n_order': i}
             )
             copiedObs['actual_warehouse']._take(col)
+            #print('order')
+            #print(copiedObs['actual_warehouse'].disposition)
             
         # LOCATE NEW PARCELS
         for i, parcel in enumerate(copiedObs['new_parcel']):
@@ -68,6 +70,9 @@ class Agent():
                         parcel,
                         col
                     )
+
+                    #print('new item')
+                    #print(copiedObs['actual_warehouse'].disposition)
 
                     break
                 

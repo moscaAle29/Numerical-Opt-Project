@@ -15,7 +15,7 @@ class Observer:
 
         #numberOfNewParcels = int(poisson.rvs(0.4,1))
         #numberOfOrders = int(poisson.rvs(0,4,1))
-        numberOfNewParcels = 4
+        numberOfNewParcels = 3
         numberOfOrders = 4
 
 
@@ -33,6 +33,9 @@ class Observer:
 
         copiedCurrentParcels = copy.copy(currentParcels)
         for i in range(0, numberOfOrders):
+            #if len(copiedCurrentParcels) == 0:
+            #    break
+
             orderedParcel = np.random.choice(a=self.parcelTypes,p= self.probabilityOfOrder)
 
             while orderedParcel not in copiedCurrentParcels:

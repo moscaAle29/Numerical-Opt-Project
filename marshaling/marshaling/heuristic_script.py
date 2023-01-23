@@ -19,8 +19,13 @@ X = []
 y = []
 f = AVF()
 
-for i in range(0,1000):
-    print(i)
+for i in range(0,5):
+    print(f'time step: {i}')
+    print(trainWarehouse.disposition.disposition)
+    print('order')
+    print(tobs['order'])
+    print('new item')
+    print(tobs['new_parcel'])
     x = f.transform(trainWarehouse.disposition.disposition)
     trainWarehouse.orders = tobs['order']
     trainWarehouse.new_parcels = tobs['new_parcel']
@@ -37,7 +42,7 @@ f.update(X,y)
 
 
 
-timeLimit = 500
+timeLimit = 100
 
 #define warehouse
 numberOfColumns = 3

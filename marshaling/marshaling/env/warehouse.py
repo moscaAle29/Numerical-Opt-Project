@@ -110,15 +110,21 @@ class Warehouse2(Warehouse):
                     self.new_parcels[move['n_parcel']],
                     col=move['col']
                 )
+                print('-----new item-----')
+                print(self.disposition.disposition)
             elif move['type'] == 'O':
                 parcel_get = self.disposition._take(move['col'])
                 if parcel_get != self.orders[move['n_order']]:
                     ValueError('Shipped wrong parcel')
+                print('-----order-----')
+                print(self.disposition.disposition)
             else:
                 self.disposition._move(
                     move['col1'],
                     move['col2']
                 )
+                print('-----move item-----')
+                print(self.disposition.disposition)
         
 
         return cost
